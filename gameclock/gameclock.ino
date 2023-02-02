@@ -16,6 +16,7 @@
 #define DHTTYPE DHT11
 
 bool gameMode = 0;
+bool newGame = 0;
 int menuPage = 0;
 bool clockTap = 0;
 unsigned long tapCheckTime = 0;
@@ -48,8 +49,8 @@ void setup() {
     }
   }
 
-  display.display();
-  delay(1000);
+  //display.display();
+  //delay(1000);
   display.clearDisplay();
   display.display();
   
@@ -71,6 +72,9 @@ void setup1(){
 
 void loop() {
   if(gameMode){
+    if(newGame){
+      resetGame();
+    }
     gameLoop();
   }
   else {
@@ -104,6 +108,13 @@ void loop() {
 }
 
 void loop1(){
-  gameMode = digitalRead(16);
+  if(gameMode==0 && digitalRead(16)==1){
+    newGame = 1;
+    gameMode = 1;
+  }
+  else{
+    gameMode = digitalRead(16);
+    newGame = 0;
+  }
   delay(200);
 }
