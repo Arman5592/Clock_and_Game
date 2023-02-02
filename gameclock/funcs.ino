@@ -26,6 +26,7 @@ static const unsigned char PROGMEM logo_bmp[] =
   B00001100, B11110000,
   B00000111, B11100000,
   B00000011, B11000000 };
+  
 void mainClockMenu(){
   rtc.refresh();
   display.clearDisplay();

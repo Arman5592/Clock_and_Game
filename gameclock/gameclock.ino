@@ -65,9 +65,13 @@ void setup() {
   dht.begin();
 }
 
+void setup1(){
+  pinMode(16, INPUT);
+}
+
 void loop() {
   if(gameMode){
-    
+    gameLoop();
   }
   else {
     if (millis() - tapCheckTime > 20){
@@ -97,4 +101,9 @@ void loop() {
       
     }
   }
+}
+
+void loop1(){
+  gameMode = digitalRead(16);
+  delay(200);
 }
