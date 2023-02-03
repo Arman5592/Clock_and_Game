@@ -7,6 +7,7 @@
 #include "Arduino.h"
 #include "uRTCLib.h"
 #include "DHT.h"
+#include "NewPing.h"
 
 #define SCREEN_WIDTH 128 // OLED display width, in pixels
 #define SCREEN_HEIGHT 64 // OLED display height, in pixels
@@ -14,6 +15,9 @@
 #define MENU_MAX 2      // max. menu counter (num. of menus - 1)
 #define DHTPIN 15
 #define DHTTYPE DHT11
+#define TRIGGER_PIN 10
+#define ECHO_PIN 11
+#define MAX_DISTANCE 400
 
 bool gameMode = 0;
 bool newGame = 0;
@@ -26,6 +30,7 @@ Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire1, OLED_RESET);
 uRTCLib rtc(0x68);
 Adafruit_MPU6050 mpu;
 DHT dht(DHTPIN, DHTTYPE);
+NewPing sonar(TRIGGER_PIN, ECHO_PIN, MAX_DISTANCE);
 
 void setup() {
   pinMode(25, OUTPUT);
@@ -64,6 +69,8 @@ void setup() {
   mpu.setFilterBandwidth(MPU6050_BAND_21_HZ);
 
   dht.begin();
+
+  
 }
 
 void setup1(){
@@ -116,5 +123,6 @@ void loop1(){
     gameMode = digitalRead(16);
     newGame = 0;
   }
+  //Serial.println(sonar.ping_cm());
   delay(200);
 }
