@@ -34,6 +34,9 @@ NewPing sonar(TRIGGER_PIN, ECHO_PIN, MAX_DISTANCE);
 
 void setup() {
   pinMode(25, OUTPUT);
+  pinMode(14, OUTPUT);
+  digitalWrite(14, HIGH);
+  
   Wire1.setSDA(2);
   Wire1.setSCL(3);
   
@@ -63,7 +66,7 @@ void setup() {
   display.display();
   
   // for example to set January 13 2022 at 12:56 you would call:
-  // rtc.set(0, 9, 20, 7, 21, 1, 23);
+  // rtc.set(0, 48, 18, 2, 6, 2, 23);
   // rtc.set(second, minute, hour, dayOfWeek, dayOfMonth, month, year)
   // set day of week (1=Sunday, 7=Saturday)
 
@@ -73,10 +76,7 @@ void setup() {
 
   dht.begin();
 
-  Wire.beginTransmission(0x0c);
-  Wire.write(0x31);
-  Wire.write(0x02);
-  Wire.endTransmission(true);
+  resetHall();
 }
 
 void setup1(){
@@ -108,20 +108,6 @@ void loop() {
     
     if(menuPage == 0){
       mainClockMenu();
-      
-      Wire.beginTransmission(0x0c);
-      Wire.write(0x00);
-      Wire.endTransmission(false);
-      Wire.requestFrom(0x0c, 13);
-      //Serial.println(Wire.read());
-      delay(200);
-      int reg[13];
-      for (int i=0; i<13; i++){ 
-        reg[i] = Wire.read();
-        Serial.println(reg[i]);
-      }
-      
-      
     }
     else if (menuPage == 1){
       dateMenu();
