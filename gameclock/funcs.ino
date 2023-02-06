@@ -61,7 +61,7 @@ bool clockMenuTap(){
   }
 
   if(accZMax - accZMin > 0.25){
-      Serial.println("tap");
+      //Serial.println("tap");
       return 1;
   }
   return 0;
@@ -123,4 +123,8 @@ void ambienceMenu(){
       return;
     }
   }
+}
+
+void hallMenu(){
+  
 }

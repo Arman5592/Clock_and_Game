@@ -12,7 +12,7 @@
 #define SCREEN_WIDTH 128 // OLED display width, in pixels
 #define SCREEN_HEIGHT 64 // OLED display height, in pixels
 #define OLED_RESET     -1 // Reset pin # (or -1 if sharing Arduino reset pin)
-#define MENU_MAX 2      // max. menu counter (num. of menus - 1)
+#define MENU_MAX 3      // max. menu counter (num. of menus - 1)
 #define DHTPIN 15
 #define DHTTYPE DHT11
 #define TRIGGER_PIN 10
@@ -43,6 +43,9 @@ void setup() {
   URTCLIB_WIRE.setSCL(5);
   URTCLIB_WIRE.begin();
 
+  Wire.begin();
+  Wire1.begin();
+
   if(!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) { 
     Serial.println(F("SSD1306 allocation failed"));
     for(;;); // Don't proceed, loop forever
@@ -70,7 +73,10 @@ void setup() {
 
   dht.begin();
 
-  
+  Wire.beginTransmission(0x0c);
+  Wire.write(0x31);
+  Wire.write(0x02);
+  Wire.endTransmission(true);
 }
 
 void setup1(){
@@ -78,6 +84,7 @@ void setup1(){
 }
 
 void loop() {
+  
   if(gameMode){
     if(newGame){
       resetGame();
@@ -101,12 +108,29 @@ void loop() {
     
     if(menuPage == 0){
       mainClockMenu();
+      
+      Wire.beginTransmission(0x0c);
+      Wire.write(0x00);
+      Wire.endTransmission(false);
+      Wire.requestFrom(0x0c, 13);
+      //Serial.println(Wire.read());
+      delay(200);
+      int reg[13];
+      for (int i=0; i<13; i++){ 
+        reg[i] = Wire.read();
+        Serial.println(reg[i]);
+      }
+      
+      
     }
     else if (menuPage == 1){
       dateMenu();
     }
     else if (menuPage == 2){
       ambienceMenu();
+    }
+    else if (menuPage == 3){
+      hallMenu();
     }
     else {
       
