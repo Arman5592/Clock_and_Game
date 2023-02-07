@@ -6,9 +6,11 @@ float accZMin = 20.0;
 sensors_event_t a, g, temp;
 
 unsigned long lastDHTMeasurement = 0;
+unsigned long lastSonarMeasurement = 0;
 uint8_t humidity = 25;
 uint8_t celsius = 25;
 uint8_t fahrenheit = 70;
+int distMeasured = 0;
 static const unsigned char PROGMEM logo_bmp[] =
 { B00000000, B00000000,
   B00000000, B00110000,
@@ -102,12 +104,16 @@ void ambienceMenu(){
   display.print(fahrenheit);
   display.print("F");
 
-  display.setCursor(0,28);
+  display.setCursor(0,24);
   display.print(humidity);
   display.print("%");
 
-  display.setCursor(40,30);
-  display.drawBitmap(40, 30, logo_bmp, 16, 16, WHITE);
+  display.setCursor(40,24);
+  display.drawBitmap(40, 24, logo_bmp, 16, 16, WHITE);
+
+  display.setCursor(0, 48);
+  display.print(distMeasured);
+  display.print("cm");
   
   display.display();
 
@@ -125,6 +131,10 @@ void ambienceMenu(){
       Serial.println(F("Failed to read from DHT sensor!"));
       return;
     }
+  }
+  if(millis() - lastSonarMeasurement > 100){
+    lastSonarMeasurement = millis();
+    distMeasured = sonar.ping_cm();
   }
 }
 

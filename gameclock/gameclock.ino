@@ -1,4 +1,3 @@
-#include <SPI.h>
 #include <Wire.h>
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
@@ -13,7 +12,7 @@
 #define SCREEN_WIDTH 128 // OLED display width, in pixels
 #define SCREEN_HEIGHT 64 // OLED display height, in pixels
 #define OLED_RESET     -1 // Reset pin # (or -1 if sharing Arduino reset pin)
-#define MENU_MAX 3      // max. menu counter (num. of menus - 1)
+#define MENU_MAX 4      // max. menu counter (num. of menus - 1)
 #define DHTPIN 15
 #define DHTTYPE DHT11
 #define TRIGGER_PIN 10
@@ -100,6 +99,7 @@ void loop() {
           }
           else {
             menuPage += 1;
+            if(menuPage == 4) resetPongGame();
           }
         }
       }
@@ -116,6 +116,9 @@ void loop() {
     }
     else if (menuPage == 3){
       hallMenu();
+    }
+    else if (menuPage == 4){
+      pongGame();
     }
     else {
       
