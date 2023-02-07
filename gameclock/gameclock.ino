@@ -4,6 +4,7 @@
 #include <Adafruit_SSD1306.h>
 #include <Adafruit_MPU6050.h>
 #include <Adafruit_Sensor.h>
+#include <ES-keyword_inferencing.h>
 #include "Arduino.h"
 #include "uRTCLib.h"
 #include "DHT.h"
@@ -18,6 +19,7 @@
 #define TRIGGER_PIN 10
 #define ECHO_PIN 11
 #define MAX_DISTANCE 400
+#define EIDSP_QUANTIZE_FILTERBANK   0
 
 bool gameMode = 0;
 bool newGame = 0;
@@ -33,10 +35,6 @@ DHT dht(DHTPIN, DHTTYPE);
 NewPing sonar(TRIGGER_PIN, ECHO_PIN, MAX_DISTANCE);
 
 void setup() {
-  pinMode(25, OUTPUT);
-  pinMode(14, OUTPUT);
-  digitalWrite(14, HIGH);
-  
   Wire1.setSDA(2);
   Wire1.setSCL(3);
   
@@ -81,6 +79,7 @@ void setup() {
 
 void setup1(){
   pinMode(16, INPUT);
+  pinMode(25, OUTPUT);
 }
 
 void loop() {
@@ -124,15 +123,18 @@ void loop() {
   }
 }
 
-void loop1(){
-  if(gameMode==0 && digitalRead(16)==1){
-    newGame = 1;
-    gameMode = 1;
+void loop1(){ 
+  if(isKeyword() || digitalRead(16)){
+    if (gameMode == 0){
+      newGame = 1;
+      gameMode = 1;
+    }
+    else {
+      newGame = 0;
+      gameMode = 0;
+    }
   }
   else{
-    gameMode = digitalRead(16);
     newGame = 0;
   }
-  //Serial.println(sonar.ping_cm());
-  delay(200);
 }

@@ -48,6 +48,7 @@ void gameLoop(){
   
   display.drawBitmap(40, knightY, knight_logo_bmp, 24, 24, WHITE);
 
+
   int dist;
   int i;
   //check losing condition - TODO: walls
@@ -65,6 +66,7 @@ void gameLoop(){
   if (thornX < 42 && thornX > 38)
     gameNotOver = 0;
 
+  
   if(!gameNotOver){
     display.setTextSize(2);
     display.setTextColor(WHITE);
@@ -76,13 +78,22 @@ void gameLoop(){
     display.print("Score:");
     display.print(score);
     display.display();
+    if (millis() - tapCheckTime > 20){
+      tapCheckTime = millis();
+      if(clockMenuTap()){
+        resetGame();
+      }
+    }
+    
     return;
   }
 
+
   i=0;
   for(i; i<2; i++){
-    if (bugX[i] != -1)
+    if (bugX[i] != -1){
       display.drawBitmap(bugX[i], 48, bug_logo_bmp, 16, 16, WHITE);
+    }
   }
 
   if (thornX < 128){
@@ -91,7 +102,6 @@ void gameLoop(){
       display.drawBitmap(thornX, i*8, thorn_logo_bmp, 8, 8, WHITE);
     }
 
-    
   }
   if (thornX > 40 && thornX < 90) {
     bugDistanceCounter = 40;
@@ -110,7 +120,7 @@ void gameLoop(){
   bugDistanceCounter -= 1;
   
   i=0;
-  for(i; i<3; i++){
+  for(i; i<2; i++){
     if (bugX[i] != -1){
       bugX[i] -= 2;
     }
@@ -134,7 +144,7 @@ void gameLoop(){
            //dash
            dashLeft = 8;
            i=0;
-           for(i; i<3; i++){
+           for(i; i<2; i++){
              if (bugX[i] != -1){
                bugX[i] -= 32;
              }
@@ -167,7 +177,6 @@ void gameLoop(){
   }
 
   dashLeft -= 1;
-  
   display.display();
 
   

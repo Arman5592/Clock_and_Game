@@ -130,6 +130,7 @@ void ambienceMenu(){
 
 void hallMenu(){
   if(millis() - lastHallMeasurement > 200){
+    resetHall();
     lastHallMeasurement = millis();
     Wire.beginTransmission(0x0c);
     Wire.write(0x00);
@@ -229,9 +230,7 @@ void resetHall(){
   Wire.write(0x00);
   Wire.endTransmission(true);
   
-  digitalWrite(14, LOW);
   delay(10);
-  digitalWrite(14, HIGH);
 
   Wire.beginTransmission(0x0c);
   Wire.write(0x31);
