@@ -9,3 +9,5 @@ The keyword-detecting model was first extracted as an Arduino library, and was m
 <p align="center">
 <img src="ESProj.png" alt="clock" width="600"/>
 </p>
+
+A PDF report (in Farsi) is available.
