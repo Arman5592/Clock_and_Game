@@ -5,3 +5,7 @@ Based on a [Raspberry Pi Pico](https://www.raspberrypi.com/products/raspberry-pi
 Moving between menus and gameplay are implemented using an MPU-6050 which can detect human taps on the table, and moving between the 'clock' and 'game' interface relies on a neural-network keyword detector (using an electret microphone) which was created using [Edge Impulse](https://edgeimpulse.com/) based on the `yes` keyword. 
 
 The keyword-detecting model was first extracted as an Arduino library, and was modified for usage with the Pico and electret microphones (the original library uses digital mics with built-in FIFO buffers for sampling). One processor core is dedicated to keyword detection, which loops every second and infers in ~200ms (at 125 MHz core clock), while another core performs every other task.
+
+<p align="center">
+<img src=ESProj.png" alt="clock" width="600"/>
+</p>
